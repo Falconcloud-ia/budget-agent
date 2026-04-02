@@ -12,22 +12,24 @@ def create_expense(
     monto: float,
     frecuencia: str,
     descripcion: str = "",
-    estado: str = "activo"
+    estado: str = "activo",
+    categoria: str = "fijo",
+    mes_periodo: str = ""
 ) -> Dict[str, Any]:
     """Create a fixed expense."""
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
-    INSERT INTO gastos_fijos (nombre, monto, frecuencia, descripcion, estado)
-    VALUES (?, ?, ?, ?, ?)
-    """, (nombre, monto, frecuencia, descripcion, estado))
+    INSERT INTO gastos_fijos (nombre, monto, frecuencia, descripcion, estado, categoria, mes_periodo)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (nombre, monto, frecuencia, descripcion, estado, categoria, mes_periodo if mes_periodo else None))
 
     conn.commit()
     expense_id = cursor.lastrowid
     conn.close()
 
-    return {"id": expense_id, "nombre": nombre, "monto": monto, "frecuencia": frecuencia}
+    return {"id": expense_id, "nombre": nombre, "monto": monto, "frecuencia": frecuencia, "categoria": categoria}
 
 
 def get_all_expenses() -> List[Dict[str, Any]]:
@@ -67,22 +69,24 @@ def create_partial_payment(
     monto: float,
     fecha_pago: str,
     descripcion: str = "",
-    metodo_pago: str = ""
+    metodo_pago: str = "",
+    mes_periodo: str = "",
+    es_gasto_hormiga: bool = False
 ) -> Dict[str, Any]:
     """Create a partial payment."""
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
-    INSERT INTO pagos_parciales (gasto_id, monto, fecha_pago, descripcion, metodo_pago)
-    VALUES (?, ?, ?, ?, ?)
-    """, (gasto_id, monto, fecha_pago, descripcion, metodo_pago))
+    INSERT INTO pagos_parciales (gasto_id, monto, fecha_pago, descripcion, metodo_pago, mes_periodo, es_gasto_hormiga)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (gasto_id, monto, fecha_pago, descripcion, metodo_pago, mes_periodo if mes_periodo else None, 1 if es_gasto_hormiga else 0))
 
     conn.commit()
     payment_id = cursor.lastrowid
     conn.close()
 
-    return {"id": payment_id, "gasto_id": gasto_id, "monto": monto}
+    return {"id": payment_id, "gasto_id": gasto_id, "monto": monto, "es_gasto_hormiga": es_gasto_hormiga}
 
 
 def get_all_partial_payments() -> List[Dict[str, Any]]:
@@ -103,23 +107,24 @@ def create_task(
     descripcion: str,
     prioridad: str = "media",
     monto_asociado: float = 0.0,
-    fecha_vencimiento: str = ""
+    fecha_vencimiento: str = "",
+    categoria: str = "personal"
 ) -> Dict[str, Any]:
     """Create a task."""
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
-    INSERT INTO tareas (descripcion, prioridad, monto_asociado, fecha_vencimiento, estado)
-    VALUES (?, ?, ?, ?, 'pendiente')
+    INSERT INTO tareas (descripcion, prioridad, monto_asociado, fecha_vencimiento, estado, categoria)
+    VALUES (?, ?, ?, ?, 'pendiente', ?)
     """, (descripcion, prioridad, monto_asociado if monto_asociado > 0 else None,
-          fecha_vencimiento if fecha_vencimiento else None))
+          fecha_vencimiento if fecha_vencimiento else None, categoria))
 
     conn.commit()
     task_id = cursor.lastrowid
     conn.close()
 
-    return {"id": task_id, "descripcion": descripcion, "prioridad": prioridad}
+    return {"id": task_id, "descripcion": descripcion, "prioridad": prioridad, "categoria": categoria}
 
 
 def get_all_tasks() -> List[Dict[str, Any]]:

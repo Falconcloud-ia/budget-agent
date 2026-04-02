@@ -26,6 +26,8 @@ def init_db():
         frecuencia TEXT NOT NULL,
         descripcion TEXT,
         estado TEXT DEFAULT 'activo',
+        categoria TEXT DEFAULT 'fijo',
+        mes_periodo TEXT,
         fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
@@ -39,6 +41,8 @@ def init_db():
         fecha_pago TIMESTAMP NOT NULL,
         descripcion TEXT,
         metodo_pago TEXT,
+        mes_periodo TEXT,
+        es_gasto_hormiga INTEGER DEFAULT 0,
         fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (gasto_id) REFERENCES gastos_fijos(id)
     )
@@ -52,6 +56,7 @@ def init_db():
         prioridad TEXT DEFAULT 'media',
         monto_asociado REAL,
         fecha_vencimiento TIMESTAMP,
+        categoria TEXT DEFAULT 'personal',
         fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
@@ -69,6 +74,21 @@ def init_db():
         fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
+
+    # Migraciones seguras para usuarios con base de datos existente
+    migrations = [
+        "ALTER TABLE gastos_fijos ADD COLUMN categoria TEXT DEFAULT 'fijo'",
+        "ALTER TABLE gastos_fijos ADD COLUMN mes_periodo TEXT",
+        "ALTER TABLE pagos_parciales ADD COLUMN mes_periodo TEXT",
+        "ALTER TABLE pagos_parciales ADD COLUMN es_gasto_hormiga INTEGER DEFAULT 0",
+        "ALTER TABLE tareas ADD COLUMN categoria TEXT DEFAULT 'personal'",
+    ]
+
+    for sql in migrations:
+        try:
+            cursor.execute(sql)
+        except Exception:
+            pass  # Columna ya existe
 
     conn.commit()
     conn.close()

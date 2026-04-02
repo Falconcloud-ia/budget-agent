@@ -39,6 +39,15 @@ TOOLS = [
                 "descripcion": {
                     "type": "string",
                     "description": "Optional description"
+                },
+                "categoria": {
+                    "type": "string",
+                    "enum": ["fijo", "variable", "deuda", "servicio"],
+                    "description": "Expense category (default: fijo)"
+                },
+                "mes_periodo": {
+                    "type": "string",
+                    "description": "Period month in YYYY-MM format (optional)"
                 }
             },
             "required": ["nombre", "monto", "frecuencia"]
@@ -92,6 +101,14 @@ TOOLS = [
                 "metodo_pago": {
                     "type": "string",
                     "description": "Payment method (cash, card, transfer, etc.)"
+                },
+                "mes_periodo": {
+                    "type": "string",
+                    "description": "Period month in YYYY-MM format (optional)"
+                },
+                "es_gasto_hormiga": {
+                    "type": "boolean",
+                    "description": "Is this a small impulse purchase? (default: false)"
                 }
             },
             "required": ["gasto_id", "monto", "fecha_pago"]
@@ -119,6 +136,11 @@ TOOLS = [
                 "fecha_vencimiento": {
                     "type": "string",
                     "description": "Due date (YYYY-MM-DD, optional)"
+                },
+                "categoria": {
+                    "type": "string",
+                    "enum": ["personal", "parcela", "trabajo", "casa"],
+                    "description": "Task category (default: personal)"
                 }
             },
             "required": ["descripcion"]
@@ -185,7 +207,9 @@ def process_tool(tool_name: str, tool_input: dict) -> str:
                 nombre=tool_input["nombre"],
                 monto=tool_input["monto"],
                 frecuencia=tool_input["frecuencia"],
-                descripcion=tool_input.get("descripcion", "")
+                descripcion=tool_input.get("descripcion", ""),
+                categoria=tool_input.get("categoria", "fijo"),
+                mes_periodo=tool_input.get("mes_periodo", "")
             )
             return json.dumps({"success": True, "data": result})
 
@@ -203,7 +227,9 @@ def process_tool(tool_name: str, tool_input: dict) -> str:
                 gasto_id=tool_input["gasto_id"],
                 monto=tool_input["monto"],
                 fecha_pago=tool_input["fecha_pago"],
-                metodo_pago=tool_input.get("metodo_pago", "")
+                metodo_pago=tool_input.get("metodo_pago", ""),
+                mes_periodo=tool_input.get("mes_periodo", ""),
+                es_gasto_hormiga=tool_input.get("es_gasto_hormiga", False)
             )
             return json.dumps({"success": True, "data": result})
 
@@ -212,7 +238,8 @@ def process_tool(tool_name: str, tool_input: dict) -> str:
                 descripcion=tool_input["descripcion"],
                 prioridad=tool_input.get("prioridad", "media"),
                 monto_asociado=tool_input.get("monto_asociado", 0),
-                fecha_vencimiento=tool_input.get("fecha_vencimiento", "")
+                fecha_vencimiento=tool_input.get("fecha_vencimiento", ""),
+                categoria=tool_input.get("categoria", "personal")
             )
             return json.dumps({"success": True, "data": result})
 
