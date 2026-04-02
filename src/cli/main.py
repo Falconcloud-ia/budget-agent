@@ -6,17 +6,17 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.prompt import Prompt
 from src.db import init_db, get_summary, get_all_expenses, get_all_incomes, get_all_tasks
-from src.agent import BudgetAgent
+from src.agent import NaamanAgent
 
 console = Console()
 
 
 def display_welcome():
     """Display welcome message."""
-    welcome_text = """[bold cyan]💰 Budget Agent[/bold cyan]
+    welcome_text = """[bold cyan]💰 Naaman - Asistente Financiero[/bold cyan]
 
-An AI-powered personal budget assistant powered by Claude.
-Type 'help' for commands or ask anything about your budget!"""
+Tu asistente financiero y personal, impulsado por Claude.
+¡Escribe 'help' para comandos o pregunta cualquier cosa sobre tus finanzas!"""
 
     console.print(Panel(welcome_text, border_style="cyan"))
 
@@ -162,7 +162,7 @@ def main():
         display_welcome()
 
         # Initialize agent
-        agent = BudgetAgent()
+        agent = NaamanAgent()
 
         console.print("[bold]Starting interactive mode (type 'help' for commands)[/bold]\n")
 
@@ -195,7 +195,7 @@ def main():
 
                 else:
                     # Send to AI agent
-                    console.print("[bold cyan]Agent:[/bold cyan]", end=" ")
+                    console.print("[bold cyan]Naaman:[/bold cyan]", end=" ")
                     response = agent.chat(user_input)
                     console.print(response)
                     console.print()

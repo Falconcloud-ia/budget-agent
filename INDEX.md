@@ -23,7 +23,7 @@
 
 ### Agent Layer (`src/agent/`)
 - **[src/agent/budget_agent.py](src/agent/budget_agent.py)** - Claude API integration
-  - `BudgetAgent` class with tool use support
+  - `NaamanAgent` class with tool use support
   - Conversation history management
   - Tool execution loop
 
@@ -104,7 +104,7 @@ python -m src.cli.main
 ## 📊 Architecture Summary
 
 ```
-CLI ↔ BudgetAgent ↔ Claude API
+CLI ↔ NaamanAgent ↔ Claude API
  ↓       ↓
 DB ← Tools
 ```

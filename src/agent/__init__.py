@@ -1,5 +1,5 @@
 """Agent module for AI-powered budget management."""
 
-from .budget_agent import BudgetAgent
+from .budget_agent import NaamanAgent
 
-__all__ = ["BudgetAgent"]
+__all__ = ["NaamanAgent"]

@@ -20,7 +20,7 @@
 - Returns JSON results back to agent
 
 **src/agent/**
-- `BudgetAgent` class wraps Claude API
+- `NaamanAgent` class wraps Claude API
 - Manages conversation history
 - Handles tool use loop
 - System prompt for agent behavior
@@ -193,8 +193,8 @@ sqlite3 data/budget.db "SELECT * FROM gastos_fijos;"
 
 ### Test Agent Directly
 ```python
-from src.agent import BudgetAgent
-agent = BudgetAgent()
+from src.agent import NaamanAgent
+agent = NaamanAgent()
 response = agent.chat("Add a monthly expense of $1000")
 print(response)
 ```

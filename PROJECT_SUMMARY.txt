@@ -21,7 +21,7 @@
   ✓ src/config.py            - Configuration management
   ✓ src/db/connection.py      - SQLite connection
   ✓ src/db/models.py          - CRUD operations (40+ functions)
-  ✓ src/agent/budget_agent.py - Claude API integration (tool use)
+  ✓ src/agent/budget_agent.py - Naaman Agent with Claude API integration (tool use)
   ✓ src/tools/__init__.py     - 9 agent tools + processor
   ✓ src/cli/main.py           - Rich terminal UI with 6 commands
 

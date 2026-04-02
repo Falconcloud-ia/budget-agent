@@ -7,7 +7,7 @@ the agent without the CLI.
 
 import sys
 from src.db import init_db, get_summary, get_all_expenses
-from src.agent import BudgetAgent
+from src.agent import NaamanAgent
 
 
 def example_direct_db():
@@ -55,7 +55,7 @@ def example_agent_interaction():
     print("Example 2: Agent Interaction")
     print("=" * 50)
 
-    agent = BudgetAgent()
+    agent = NaamanAgent()
 
     # Example queries
     queries = [
@@ -97,7 +97,7 @@ def example_tools_directly():
 
 def main():
     """Run examples."""
-    print("\n🚀 Budget Agent Examples\n")
+    print("\n🚀 Naaman Agent Examples\n")
 
     try:
         # Initialize database

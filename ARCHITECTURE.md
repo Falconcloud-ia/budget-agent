@@ -11,7 +11,7 @@
                    ├─────────────────────┬──────────────────┐
                    ▼                     ▼                  ▼
          ┌────────────────┐    ┌──────────────────┐  ┌──────────┐
-         │ Budget Agent   │    │  Direct DB Calls │  │ Commands │
+         │ Naaman Agent   │    │  Direct DB Calls │  │ Commands │
          │ (Claude API)   │    │                  │  │ (summary,│
          └────────┬───────┘    └────────┬─────────┘  │ expenses)│
                   │                     │             └──────────┘
@@ -67,7 +67,7 @@
 └──────────────────────┬────────────────────────────────────┘
                        ▼
 ┌─────────────────────────────────────────────────────────────┐
-│ 3. BudgetAgent.chat(message)                                │
+│ 3. NaamanAgent.chat(message)                                │
 │    - Add to conversation history                            │
 │    - Send to Claude with tools                              │
 └──────────────────────┬────────────────────────────────────┘
